@@ -1,4 +1,4 @@
-module psrs-web-service
+module psrs-go-web-service
 
 go 1.20
 
