@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,9 +28,12 @@ func main() {
 	router.GET("/albums/:id", getAlbumByID)
 	router.POST("/albums", postAlbums)
 
-	err := router.Run("localhost:8080")
-	if err != nil {
-		return
+	if os.Getenv("PORT") != "" {
+		// Heroku add a env variable called PORT, if exist we will use it
+		_ = router.Run("0.0.0.0:" + os.Getenv("PORT"))
+	} else {
+		// If is running on localhost (our computer), no PORT env variable
+		_ = router.Run("localhost:8080")
 	}
 }
 
