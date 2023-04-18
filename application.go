@@ -24,6 +24,7 @@ var albums = []album{
 
 func main() {
 	router := gin.Default()
+	router.GET("/", hello)
 	router.GET("/albums", getAlbums)
 	router.GET("/albums/:id", getAlbumByID)
 	router.POST("/albums", postAlbums)
@@ -32,9 +33,18 @@ func main() {
 		// Heroku add a env variable called PORT, if exist we will use it
 		_ = router.Run("0.0.0.0:" + os.Getenv("PORT"))
 	} else {
-		// If is running on localhost (our computer), no PORT env variable
-		_ = router.Run("localhost:8080")
+		// else runs it on port 5000 (AWS Elastic BeanStalk)
+		err := router.Run(":5000")
+		if err != nil {
+			// if the port is busy just run in 8080
+			_ = router.Run("0.0.0.0:8080")
+		}
 	}
+}
+
+// hello responds with a default Hello World message in JSON.
+func hello(c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, "Hello World!")
 }
 
 // getAlbums responds with the list of all albums as JSON.
