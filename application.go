@@ -44,7 +44,7 @@ func main() {
 
 // hello responds with a default Hello World message in JSON.
 func hello(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, "Hello World! I'm testing AWS EB for the students")
+	c.IndentedJSON(http.StatusOK, "Hello World! I'm testing Render")
 }
 
 // getAlbums responds with the list of all albums as JSON.
